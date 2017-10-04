@@ -27,7 +27,8 @@ struct Complex {
     static const char leftBrace{ '{' };
     static const char separator{ ',' };
     static const char rightBrace{ '}' };
-
+    static void exponentiation(Complex& rhs, int exponent);
+    static void extraction(Complex& rhs, int radical);
 };
 std::ostream& operator << (std::ostream& ostrm, const Complex& rhs);
 std::istream& operator >> (std::istream& istrm, Complex& rhs);

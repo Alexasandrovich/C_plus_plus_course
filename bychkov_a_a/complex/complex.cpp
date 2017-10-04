@@ -1,6 +1,7 @@
 #include "complex.h"
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 bool Complex:: operator==(const Complex& rhs) const
 {
@@ -112,6 +113,48 @@ Complex& Complex::operator-=(const double rhs)
 Complex& Complex::operator*=(const double rhs)
 {
     return operator*=(Complex(rhs));
+}
+Complex& Complex::operator/=(const double rhs)
+{
+    return operator/=(Complex(rhs));
+}
+void Complex::exponentiation(Complex& rhs, int exponent)
+{
+    std::cout << "-------------" << std::endl;
+    std::cout << "Exponentiation " << rhs << " in " << exponent << " degree"<<std::endl;
+    int modul=sqrt(rhs.re*rhs.re + rhs.im*rhs.im), phi = atan(rhs.im / rhs.re);
+    if (sin(exponent*phi) == 0)
+    {
+        std::cout << rhs << "^" << exponent << "=" << pow(modul, exponent) * cos(exponent*phi)<< std::endl;
+    }
+    else {
+        std::cout << rhs << "^" << exponent << "=" << pow(modul, exponent) << "*(" << cos(exponent*phi)
+            << sin(exponent*phi) << " i)" << std::endl;
+    }
+    std::cout << "-------------" << std::endl;
+}
+void Complex::extraction(Complex& rhs, int radical)
+{
+    int modul = pow(sqrt(rhs.re*rhs.re + rhs.im*rhs.im), 1 / radical), phi = atan(rhs.im / rhs.re);
+    std::cout << "Extract the root " << radical << " degree from " << rhs<< std::endl;
+    std::cout << "all radicals:" << std::endl;
+    for (int k = 0; k < radical; k++)
+    {
+        if (sin(radical*phi) == 0)
+        {
+            std::cout << "z" << k << " = " << modul * cos((phi + 2 * 3.14*k) / radical) << std::endl;
+        }
+          else {
+              if (sin((phi + 2 * 3.14*k) / radical) > 0){
+                  std::cout << "z" << k << " = " << modul << "*(" << cos((phi + 2 * 3.14*k) / radical)
+                      << "+" << sin((phi + 2 * 3.14*k) / radical) << " i)" << std::endl;
+                 }
+              else {
+                  std::cout << "z" << k << " = " << modul << "*(" << cos((phi + 2 * 3.14*k) / radical)<<
+                      sin((phi + 2 * 3.14*k) / radical) << " i)" << std::endl;
+              }
+              }
+    }
 }
 std::ostream& Complex::writeTo(std::ostream& ostrm) const
 {

@@ -1,6 +1,7 @@
 #include "complex.h"
 #include <iostream>
 #include <sstream>
+#include <cmath>
 bool testParse(const std::string& str) //добавить возведение в степень
 {
     using namespace std; 
@@ -76,13 +77,15 @@ void testParse_()
     testParse("{8.9, 9}");
     testParse("{8.9,9");
     cout << endl;
-
 }
 int main() 
 {
     using namespace std;
     Comparison({ 0.5, 1.5 }, { 0.5, 1.5 });
     Arithmetic({ 1,2 }, { 3,4 });
+    Complex z = { 10,20 };
+    Complex::exponentiation(z, 5);
+    Complex::extraction(z, 6);
     testParse_();
     system("pause");
     return 0;
