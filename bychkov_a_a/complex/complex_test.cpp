@@ -1,7 +1,7 @@
 #include "complex.h"
 #include <iostream>
 #include <sstream>
-bool testParse(const std::string& str) // нужно сделать правильное сравнение + добавить возведение в степень + сложение разных типов
+bool testParse(const std::string& str) //добавить возведение в степень
 {
     using namespace std; 
 
@@ -17,64 +17,73 @@ bool testParse(const std::string& str) // нужно сделать правильное сравнение + д
     }
     return istrm.good();
 }
-int main()
+void Comparison(Complex one, Complex two)
 {
     using namespace std;
-
-    Complex z = Complex(1.2,2);
-    if (z == Complex(1, 2)) // сравнение
+    Complex z1(one);
+    Complex z2(two);
+    cout << "--------Comparison--------" << endl;
+    if (z1 == z1) // сравнение
     {
-        std::cout << z << "==" << Complex(1,2 ) << std::endl;
+       cout << z1 << "==" << z2 <<endl;
     }
-    else std::cout << z << "!=" << Complex(1, 2) << std::endl;
-    if (z == Complex(2, 0)) 
-    {
-        std::cout << z << "==" << Complex(2, 0) << std::endl;
-    }
-    else std::cout << z << "!=" << Complex(2, 0) << std::endl;
-    z = Complex(5, 0);
-    cout << endl;
-
+    else cout << z1 << "!=" << z2 <<endl;
+}
+void Arithmetic(Complex one, Complex two)
+{
+    using namespace std;
+    Complex z1(one);
+    Complex z2(two);
+    Complex z3;
+    cout << "--------Arithmetic--------" << endl;
     cout << "Complex vs Complex:" << endl;
-    Complex z1 = Complex(2, 4);
-    Complex z2 = Complex(4, 8);
-    z = z1 + z2;
-    cout << z1 << "+" << z2 << "=" << z << endl;
-    z = z1-z2;
-    cout << z2 << "-" << z2 << "=" << z << endl;
-    z = z1 * z2;
-    cout << z1 << "*" << z2 << "=" << z << endl;
-    z = z1 * z2;
-    cout << z1 << "/" << z2 << "=" << z << endl << endl;
+    z3 = z1 + z2;
+    cout << z1 << "+" << z2 << "=" << z3 << endl;
+    z3 = z1 - z2;
+    cout << z1 << "-" << z2 << "=" << z3 << endl;
+    z3 = z1 * z2;
+    cout << z1 << "*" << z2 << "=" << z3 << endl;
+    z3 = z1 / z2;
+    cout << z1 << "/" << z2 << "=" << z3 << endl << endl;
 
     cout << "Complex vs double:" << endl;
-    Complex z3 = Complex(5, 10);
     double z4 = 5;
-    z = z3 + z4;
-    cout << z3 << "+" << z4 << "=" << z << endl;
-    z = z3 - z4;
-    cout << z3 << "-" << z4 << "=" << z << endl;
-    z = z3 * z4;
-    cout << z3 << "*" << z4 << "=" << z << endl;
-    z = z3 / z4;
-    cout << z3 << "/" << z4 << "=" << z << endl << endl;
+    z3 = z1 + z4;
+    cout << z1 << "+" << z4 << "=" << z3 << endl;
+    z3 = z1 - z4;
+    cout << z1 << "-" << z4<< "=" << z3 << endl;
+    z3 = z1 * z4;
+    cout << z1 << "*" << z4 << "=" << z3 << endl;
+    z3 = z1 / z4;
+    cout << z1 << "/" << z4 << "=" << z3 << endl << endl;
 
     cout << "Double vs complex:" << endl;
-    Complex z5 = Complex(10, 5);
-    double z6 =7;
-    z = z6 + z5;
-    cout << z6 << "+" << z5 << "=" << z << endl;
-    z = z6 - z5;
-    cout << z6 << "-" << z5 << "=" << z << endl;
-    z = z6 * z5;
-    cout << z6 << "*" << z5 << "=" << z << endl;
-    z = z6 / z5;
-    cout << z6 << "/" << z5 << "=" << z << endl<<endl;
-
-
+    double z5 = 10;
+    z3 = z5 + z2;
+    cout << z5 << "+" << z2 << "=" << z3 << endl;
+    z3 = z5 - z2;
+    cout << z5 << "-" << z2 << "=" << z3 << endl;
+    z3 = z5 * z2;
+    cout << z5 << "*" << z2 << "=" << z3 << endl;
+    z3 = z5 / z2;
+    cout << z5 << "/" << z2 << "=" << z3 << endl << endl;
+}
+void testParse_()
+{
+    using namespace std;
+    cout << "--------TestParse---------" << endl;
     testParse("{8.9,9}");
     testParse("{8.9, 9}");
     testParse("{8.9,9");
+    cout << endl;
+
+}
+int main() 
+{
+    using namespace std;
+    Comparison({ 0.5, 1.5 }, { 0.5, 1.5 });
+    Arithmetic({ 1,2 }, { 3,4 });
+    testParse_();
     system("pause");
     return 0;
 }
