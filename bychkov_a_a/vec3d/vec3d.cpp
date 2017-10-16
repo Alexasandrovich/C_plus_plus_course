@@ -1,102 +1,95 @@
+//
+// Created by –ê–ª–µ–∫—Å–∞–Ω–¥—Ä on 16.10.2017.
+//
 #include "vec3d.h"
 #include <iostream>
 #include <sstream>
 #include <cmath>
 #include <iomanip>
 
-Vec3d::Vec3d(const double xv, const double yv, const double zv) 
-    :x(xv), y(yv), z(zv) {}
+Vec3d::Vec3d(const double xv, const double yv, const double zv) // +
+        :x(xv), y(yv), z(zv) {}
 
-Vec3d::Vec3d(const Vec3d& v) 
-    :x(v.x), y(v.y), z(v.z) {}
-Vec3d& Vec3d::operator=(const Vec3d& v)
+Vec3d::Vec3d(const Vec3d& v) // +
+        :x(v.x), y(v.y), z(v.z) {}
+bool Vec3d:: operator==(const Vec3d& rhs) const // +
 {
-    x = v.x;
-    y = v.y;
-    z = v.z;
-    return *this;
+    return ((std::abs(rhs.x - x) < e) && (std::abs(rhs.y - y) < e) && (std::abs(rhs.z - z) < e));
 }
-bool Vec3d:: operator==(const Vec3d& rhs) const
-{
-    return ((abs(rhs.x - x) < e) && (abs(rhs.y - y) < e) && (abs(rhs.z - z) < e));
-}
-bool Vec3d::operator!=(const Vec3d& rhs)const
+bool Vec3d::operator!=(const Vec3d& rhs)const // +
 {
     return !operator==(rhs);
 }
-std::ostream& operator << (std::ostream& ostrm, const Vec3d& rhs)
+bool Vec3d::operator=(const Vec3d& rhs)
+{
+    x=rhs.x;
+    y=rhs.y;
+    z=rhs.z;
+}
+/*bool Vec3d::operator>(const Vec3d& rhs)
+{
+    return ((x>rhs.x)&&(y>rhs.y)&&(z>rhs.z));
+}
+bool Vec3d::operator<(const Vec3d& rhs)
+{
+    return ((x<rhs.x)&&(y<rhs.y)&&(z<rhs.z));
+}*/
+std::ostream& operator << (std::ostream& ostrm, const Vec3d& rhs) // +
 {
     return rhs.writeTo(ostrm);
 }
-std::istream& operator >> (std::istream& istrm, Vec3d& rhs)
+std::istream& operator >> (std::istream& istrm, Vec3d& rhs) // +
 {
     return rhs.readFrom(istrm);
 }
-Vec3d& Vec3d:: operator+=(const Vec3d& rhs)
+Vec3d& Vec3d:: operator+=(const Vec3d& rhs) // +
 {
-       x += rhs.x;
-       y += rhs.y;
-       z += rhs.z;
-       return *this;
-}    
- Vec3d operator+(const Vec3d& lhs, const Vec3d& rhs)
- {
-     Vec3d summ(lhs);
-     summ += rhs; 
-     return summ;
- }
+    x += rhs.x;
+    y += rhs.y;
+    z += rhs.z;
+    return *this;
+}
+Vec3d operator+(const Vec3d& lhs, const Vec3d& rhs) // +
+{
+    Vec3d summ(lhs);
+    summ += rhs;
+    return summ;
+}
 Vec3d& Vec3d:: operator-=(const Vec3d& rhs)
 {
-        x -= rhs.x;
-        y -= rhs.y;
-        z -= rhs.z;
-        return *this;
+    x -= rhs.x;
+    y -= rhs.y;
+    z -= rhs.z;
+    return *this;
 }
 Vec3d operator-(const Vec3d& lhs, const Vec3d& rhs)
 {
     Vec3d sub(lhs);
     sub -= rhs;
     return sub;
-}    
-Vec3d& Vec3d:: operator*=(const Vec3d& rhs)
+}
+Vec3d& Vec3d :: operator*=(const double rhs)
 {
-    x *= rhs.x;
-    y *= rhs.y;
-    z *= rhs.z;
+    x*=rhs;
+    y*=rhs;
+    z*=rhs;
     return *this;
 }
-Vec3d operator*(const Vec3d& lhs, const Vec3d& rhs)
-{
-    Vec3d mult(lhs);
-    mult *= rhs; 
-    return mult; 
-}
-/*Vec3d operator*(const double lhs, const Vec3d& rhs)
-{
-    Vec3d mult(rhs);
-    mult *= lhs;
-    return mult;
-}
-Vec3d operator*(const Vec3d& lhs, const double rhs)
-{
-    Vec3d mult(lhs);
-    mult *= rhs;
-    return mult;
-}*/
-void angle_between_vector(const Vec3d& lhs, const Vec3d& rhs)
+void Vec3d :: angle_between_vector(Vec3d& lhs, Vec3d& rhs)
 {
     using namespace std;
     double angle = acos((rhs.x*lhs.x + rhs.y*lhs.y + rhs.z*lhs.z) /
-        (sqrt(rhs.x*rhs.x + rhs.y*rhs.y + rhs.z*rhs.z)*(sqrt(lhs.x*lhs.x + lhs.y*lhs.y + lhs.z*lhs.z))));
-    cout << setprecision(2) << angle << endl;
+                        (sqrt(rhs.x*rhs.x + rhs.y*rhs.y + rhs.z*rhs.z)*(sqrt(lhs.x*lhs.x + lhs.y*lhs.y + lhs.z*lhs.z))));
+    angle = angle * 180/3.14;
+    cout << setprecision(2)<< "Angle between " << "a and b" <<" is "<< angle << endl;
 }
-void leng(const Vec3d& lhs, const Vec3d& rhs) // ‰ÎËÌ‡
+void Vec3d :: leng(Vec3d& lhs)
 {
     using namespace std;
-    double leng_ = sqrt(pow(rhs.x - lhs.x, 2) + pow(rhs.y - lhs.y, 2) + pow(rhs.z - lhs.z, 2));
-    cout << setprecision(2) << leng << endl;
+    double leng_ = sqrt(pow(lhs.x, 2) + pow(lhs.y, 2) + pow(lhs.z, 2));
+    cout << "Length of vector "<< lhs<<" " << setprecision(2) << leng_ << endl;
 }
-void scalar(const Vec3d& lhs, const Vec3d& rhs)
+void Vec3d :: vector(Vec3d& lhs, Vec3d& rhs)
 {
     using namespace std;
     double i = lhs.y*rhs.z - lhs.z*rhs.y;
@@ -105,6 +98,11 @@ void scalar(const Vec3d& lhs, const Vec3d& rhs)
     double modul = sqrt(pow(i, 2) + pow(j, 2) + pow(k, 2));
     cout << "a x b = " << "(" << i << ")i + (" << -j << ")j + (" << k << ")k" << endl;
     cout << "|a x b| = " << modul << endl;
+}
+void Vec3d :: scal(Vec3d& lhs, Vec3d& rhs)
+{
+    double scal = rhs.x*lhs.x + rhs.y* lhs.y + rhs.z*lhs.z;
+    std:: cout << "a * b = " << scal << std::endl;
 }
 std::ostream& Vec3d::writeTo(std::ostream& ostrm) const
 {
@@ -115,19 +113,16 @@ std::istream& Vec3d::readFrom(std::istream& istrm)
 {
     char leftBrace(0), comma(0), rightBrace(0);
     double xv(0), yv(0), zv(0);
-    istrm >> leftBrace >> xv >> separator >> yv >> separator >> zv >> rightBrace;
+    istrm >> leftBrace >> xv >> comma >> yv >> comma >> zv >> rightBrace;
     if (istrm.good())
     {
-        if (Vec3d::separator == comma)
-        {
-            x = xv;
-            y = yv;
-            z = zv;
-        }
-        /*else
-        {
-            istrm.setstate
-        }*/
+        if ((Vec3d:: separator == comma) && (Vec3d:: x = xv) && (Vec3d:: y = yv))
+            x=xv, y=yv, z=zv;
+    }
+    else
+    {
+        istrm.setstate(std::ios_base::failbit);
     }
     return istrm;
 }
+

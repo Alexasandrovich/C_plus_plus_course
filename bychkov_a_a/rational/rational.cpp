@@ -1,47 +1,48 @@
+//
+// Created by РђР»РµРєСЃР°РЅРґСЂ on 16.10.2017.
+//
 #include <iostream>
 #include <sstream>
 #include "rational.h"
 
-bool Rational::operator==(const Rational& rhs) const
+bool Rational::operator==(const Rational& rhs) const // +
 {
-     return (std::abs(num - rhs.num)<e) && (std::abs(den == rhs.den)<e);
+    return (std::abs(num - rhs.num)<e) && (std::abs(den == rhs.den)<e);
 }
-bool Rational::operator!=(const Rational& rhs) const
-{ 
-     return !operator==(rhs); 
+bool Rational::operator!=(const Rational& rhs) const // +
+{
+    return !operator==(rhs);
 }
-std::ostream& operator<<(std::ostream& ostrm, const Rational& rhs)
+std::ostream& operator<<(std::ostream& ostrm, const Rational& rhs) // +
 {
     return rhs.writeTo(ostrm);
 }
-std::istream& operator >> (std::istream& istrm, Rational& rhs)
+std::istream& operator >> (std::istream& istrm, Rational& rhs) // +
 {
     return rhs.readFrom(istrm);
 }
-Rational::Rational(const int number)
-    : num(number), den(1) {} 
-Rational::Rational(const int integer, const int natural) // как правильно описывать исключения?
-    : num(integer), den(natural)
+Rational::Rational(const int number) // +
+        : num(number), den(1) {}
+Rational::Rational(const int integer, const int natural) // +
+        : num(integer), den(natural)
 {
-    try
+    if (natural==0) // +-
     {
-       //std::cout << integer / den;
-    }
-    catch(...)
-    {
-        //std::cout << "Division by zero" << std::endl;
+        __throw_exception_again;
     }
 }
-int Evklid_s_method(int num, int den) 
+int Evklid_s_method(int num, int den) // +
 {
-    while (num && den)
-        if (num >= den)
-            num %= den;
+    while (num != den)
+    {
+        if (num > den)
+            num = num - den;
         else
-            den %= num;
-    return num | den;
+            den = den - num;
+    }
+    return num;
 }
-int NOK(int num, int den)
+int NOK(int num, int den) // +
 {
     return num*den / Evklid_s_method(num, den);
 }
@@ -56,7 +57,7 @@ void Rational::standard(Rational& rhs)
     rhs.num /= a;
     rhs.den /= a;
 }
-Rational& Rational::operator+=(const Rational& rhs)
+Rational& Rational::operator+=(const Rational& rhs) // ???
 {
     int  a(rhs.num), b(rhs.den), c = NOK(rhs.num, rhs.den);
     if (den != c)
@@ -72,13 +73,11 @@ Rational& Rational::operator+=(const Rational& rhs)
     Rational::standard(*this);
     return *this;
 }
-Rational operator+(const Rational& lhs, const Rational& rhs)
+Rational& Rational::operator+=(const int rhs)
 {
-    Rational sum(lhs);
-    sum += rhs;
-    return sum;
+    return operator+=(Rational(rhs));
 }
-Rational operator+(const Rational& lhs, const int rhs)
+Rational operator+(const Rational& lhs, const Rational& rhs) //  +
 {
     Rational sum(lhs);
     sum += rhs;
@@ -88,6 +87,12 @@ Rational operator+(const int lhs, const Rational& rhs)
 {
     Rational sum(rhs);
     sum += lhs;
+    return sum;
+}
+Rational operator+(const Rational& lhs, const int rhs)
+{
+    Rational sum(lhs);
+    sum += rhs;
     return sum;
 }
 Rational& Rational::operator-=(const Rational& rhs)
@@ -106,6 +111,10 @@ Rational& Rational::operator-=(const Rational& rhs)
     Rational::standard(*this);
     return *this;
 }
+Rational& Rational::operator-=(const int rhs)
+{
+    return operator+=(Rational(rhs));
+}
 Rational operator-(const Rational& lhs, const Rational& rhs)
 {
     Rational sub(lhs);
@@ -118,20 +127,23 @@ Rational operator-(const Rational& lhs, const int rhs)
     sub -= rhs;
     return sub;
 }
-Rational operator-(const int lhs, const Rational& rhs)
-{
+Rational operator-(const int lhs, const Rational& rhs) {
     Rational sub(rhs);
     sub -= lhs;
     return sub;
 }
 Rational& Rational:: operator*=(const Rational& rhs)
 {
-    num*= rhs.num;
-    den*= rhs.den;
+    den *= rhs.den;
+    num *= rhs.num;
     Rational::standard(*this);
     return *this;
 }
-Rational operator*(const Rational& lhs, const Rational& rhs)
+Rational& Rational::operator*=(const int rhs)
+{
+    return operator*=(Rational(rhs));
+}
+Rational operator*(const Rational& lhs, const Rational&  rhs)
 {
     Rational mult(rhs);
     mult *= lhs;
@@ -140,7 +152,7 @@ Rational operator*(const Rational& lhs, const Rational& rhs)
 Rational operator*(const Rational& lhs, const int rhs)
 {
     Rational mult(lhs);
-    mult *= rhs;
+    mult*= rhs;
     return mult;
 }
 Rational operator*(const int lhs, const Rational& rhs)
@@ -149,12 +161,16 @@ Rational operator*(const int lhs, const Rational& rhs)
     mult *= lhs;
     return mult;
 }
-Rational& Rational:: operator/=(const Rational& rhs)
+Rational& Rational::operator/=(const Rational& rhs)
 {
     num *= rhs.den;
     den *= rhs.num;
     Rational::standard(*this);
     return *this;
+}
+Rational& Rational::operator/=(const int rhs)
+{
+    return operator/=(Rational(rhs));
 }
 Rational operator/(const Rational& lhs, const Rational&  rhs)
 {

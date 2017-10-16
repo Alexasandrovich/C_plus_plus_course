@@ -1,13 +1,17 @@
-#ifndef RATIONAL_25092017
-#define RATIONAL_25092017
+//
+// Created by Александр on 16.10.2017.
+//
 
-#include <iosfwd> 
+#ifndef RATIONAL_RATIONAL_H
+#define RATIONAL_RATIONAL_H
+
+#include <iosfwd>
 
 class Rational
 {
 public:
-    Rational() = default;
-    explicit Rational(const int number);
+    Rational();
+    Rational(const int number);
     Rational(const int integer, const int natural);
     bool operator==(const Rational& rhs) const;
     bool operator!=(const Rational& rhs) const;
@@ -41,7 +45,7 @@ Rational operator-(const Rational& lhs, const Rational& rhs);
 Rational operator-(const int lhs, const Rational& rhs);
 Rational operator-(const Rational& lhs, const int rhs);
 
-Ratinoal operator*(const Rational& lhs, const Rational& rhs);
+Rational operator*(const Rational& lhs, const Rational& rhs);
 Rational operator*(const int lhs, const Rational& rhs);
 Rational operator*(const Rational& lhs, const int rhs);
 
@@ -49,5 +53,4 @@ Rational operator/(const Rational& lhs, const Rational& rhs);
 Rational operator/(const int lhs, const Rational& rhs);
 Rational operator/(const Rational& lhs, const int rhs);
 
-#endif
-
+#endif //RATIONAL_RATIONAL_H
