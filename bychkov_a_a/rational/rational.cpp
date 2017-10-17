@@ -4,14 +4,16 @@
 #include <iostream>
 #include <sstream>
 #include "rational.h"
+#include <cmath>
 
-bool Rational::operator==(const Rational& rhs) const // +
+bool operator==(const Rational& rhs, const Rational& lhs) // +
 {
-    return (std::abs(num - rhs.num)<e) && (std::abs(den == rhs.den)<e);
+    Rational a = rhs - lhs;
+    return (std::fabs(a.equality_check()) < 1E-6);
 }
-bool Rational::operator!=(const Rational& rhs) const // +
+bool operator!=(const Rational& rhs, const Rational lhs) // +
 {
-    return !operator==(rhs);
+    return !(rhs==lhs);
 }
 std::ostream& operator<<(std::ostream& ostrm, const Rational& rhs) // +
 {
@@ -30,6 +32,7 @@ Rational::Rational(const int integer, const int natural) // +
     {
         __throw_exception_again;
     }
+    standard(*this);
 }
 int Evklid_s_method(int num, int den) // +
 {
@@ -57,19 +60,10 @@ void Rational::standard(Rational& rhs)
     rhs.num /= a;
     rhs.den /= a;
 }
-Rational& Rational::operator+=(const Rational& rhs) // ???
+Rational& Rational::operator+=(const Rational& rhs)
 {
-    int  a(rhs.num), b(rhs.den), c = NOK(rhs.num, rhs.den);
-    if (den != c)
-    {
-        num *= den/ c;
-        den = c;
-    }
-    if (b != c)
-    {
-        a *= c / b;
-    }
-    num+= a;
+    num = num * rhs.den + rhs.num * den;
+    den*=rhs.den;
     Rational::standard(*this);
     return *this;
 }
@@ -97,17 +91,8 @@ Rational operator+(const Rational& lhs, const int rhs)
 }
 Rational& Rational::operator-=(const Rational& rhs)
 {
-    int  a(rhs.num), b(rhs.den), c = NOK(rhs.num, rhs.den);
-    if (den != c)
-    {
-        num *= den / c;
-        den = c;
-    }
-    if (b != c)
-    {
-        a *= c / b;
-    }
-    num -= a;
+    num = num * rhs.den - rhs.num * den;
+    den*=rhs.den;
     Rational::standard(*this);
     return *this;
 }
@@ -195,7 +180,10 @@ std::ostream& Rational::writeTo(std::ostream& ostrm) const
     ostrm << num << division <<den;
     return ostrm;
 }
-
+double Rational::equality_check()
+{
+    return num/(double)den;
+}
 std::istream& Rational::readFrom(std::istream& istrm)
 {
     int integer(0);
@@ -204,8 +192,8 @@ std::istream& Rational::readFrom(std::istream& istrm)
     istrm >> integer >> division >> natural;
     if (istrm.good()) {
         if (Rational::division == division) {
-            num = integer;
-            den = natural;
+            integer =num;
+            natural= den;
 
         }
         else {

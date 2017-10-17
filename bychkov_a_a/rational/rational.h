@@ -10,11 +10,9 @@
 class Rational
 {
 public:
-    Rational();
+    Rational()= default;
     Rational(const int number);
     Rational(const int integer, const int natural);
-    bool operator==(const Rational& rhs) const;
-    bool operator!=(const Rational& rhs) const;
 
     Rational& operator+=(const Rational& rhs);
     Rational& operator+=(const int rhs);
@@ -26,6 +24,7 @@ public:
     Rational& operator/=(const int rhs);
     std::ostream& writeTo(std::ostream& ostrm) const;
     std::istream& readFrom(std::istream& istrm);
+    double equality_check();
     ~Rational() = default;
 private:
     int num{ 0 };
@@ -52,5 +51,8 @@ Rational operator*(const Rational& lhs, const int rhs);
 Rational operator/(const Rational& lhs, const Rational& rhs);
 Rational operator/(const int lhs, const Rational& rhs);
 Rational operator/(const Rational& lhs, const int rhs);
+
+bool operator==(const Rational& lhs, const Rational& rhs);
+bool operator!=(const Rational& lhs, const Rational& rhs);
 
 #endif //RATIONAL_RATIONAL_H

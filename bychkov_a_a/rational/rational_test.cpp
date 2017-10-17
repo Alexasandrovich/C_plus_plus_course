@@ -28,9 +28,28 @@ void comparison(Rational a, Rational b)
         std::cout << a_ << "=" << b_ << std::endl;
     } else std::cout << a_ << "!=" << b_ << std::endl;
 }
+void operations(Rational a, Rational b)
+{
+    using namespace std;
+    Rational a_(a), b_(b);
+    cout << "a+b = " << a_+b_<<endl;
+    cout << "a-b = " << a_-b_<<endl;
+    cout << "a*b = " << a_*b_ << endl;
+    cout << "a/b = " << a_*b_ << endl;
+}
 int main()
 {
     using namespace std;
-    comparison(1/1,1/1);
+    cout << "---------Comparison----------" << endl;
+    //comparison(1/2, 1/3);
+    //comparison(13/15,13/15);
+    Rational a_={1/2}, b_={3/4};
+    if (a_==b_)
+    {
+        std::cout << a_ << "=" << b_ << std::endl;
+    } else std::cout << a_ << "!=" << b_ << std::endl;
+    //cout << "---------Operations----------" << endl;
+    //cout << "a=" << a << " , b=" << b << endl;
+    //operations(a,b);
     return 0;
 }
